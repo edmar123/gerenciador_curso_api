@@ -7,5 +7,5 @@ import com.edmar.gerenciador_cursos_api.participante.Participante;
 
 @Repository
 public interface ParticipanteRepository extends GenericRepository<Participante, Long> {
-
+		
 }
