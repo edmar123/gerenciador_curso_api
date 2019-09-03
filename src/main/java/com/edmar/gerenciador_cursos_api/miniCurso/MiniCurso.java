@@ -1,8 +1,11 @@
 package com.edmar.gerenciador_cursos_api.miniCurso;
 
 import java.io.Serializable;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.Period;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,14 +13,19 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
+import com.edmar.gerenciador_cursos_api.participante.Participante;
 import com.edmar.gerenciador_cursos_api.professor.Professor;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NonNull;
 
 @Data
 @EqualsAndHashCode
@@ -25,11 +33,6 @@ import lombok.EqualsAndHashCode;
 @Table(name="t_mini_curso")
 public class MiniCurso implements Serializable{
 	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
 	@Id
 	@GeneratedValue(strategy=GenerationType.SEQUENCE)
 	private Long id;
@@ -38,19 +41,46 @@ public class MiniCurso implements Serializable{
 	private String nome;
 	
 	@Column(name="data_realizacao")
-	@NotBlank(message="A data de realização não pode ser nulo")
+	@NonNull
 	private LocalDate dataRealizacao;
 	
 	@Column(name="duracao_curso")
-	@NotBlank(message="O tempo de duração não pode ser nulo")
 	private LocalTime duracaoCurso;
 	
+	@Column(name="hora_inicio")
+	@NonNull
+	private LocalTime horaInicio;
+	
+	@Column(name="hora_fim")
+	@NonNull
+	private LocalTime horaFim;
 	@Column
-	@NotBlank(message="O total de vgas não pode ser nulo")
-	private Long totalVaga;
+	@NotNull(message="O total de vagas não pode ser nulo")
+	private int totalVaga; 
 	
 	@OneToOne()
 	@JoinColumn(name="id_professor")
 	private Professor professor;
+		
+	public MiniCurso() { 
+		
+	}
+	/**
+	 * A duraçao do curso é calculo de acordo com a hora de inicio do curso e a hora do termino
+	 * @author edmar
+	 */
+	public void calCularDuracaoCurso() {
+		Duration diferenca = Duration.between(horaInicio, horaFim);
+		this.duracaoCurso = LocalTime.ofNanoOfDay(diferenca.toNanos());
+		System.out.println("Calculando a duração do miniCurso" + this.duracaoCurso);
+
+	}
+	
+	public boolean possuiVaga() {
+		if (this.totalVaga > 0) {
+			return true;
+		}
+		return false;
+	}
 	
 }

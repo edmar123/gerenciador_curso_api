@@ -42,4 +42,7 @@ public class Professor implements Serializable{
 	@JoinColumn(name="id_usuario")
 	private Usuario usuario;
 
+	public Professor() {
+		
+	}
 }

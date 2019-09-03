@@ -43,7 +43,7 @@ public class ProfessorController {
 		return ResponseEntity.ok(professores);
 	}
 	@GetMapping("/{id}")
-	public ResponseEntity<?> buscarPorId(@PathVariable final long id){
+	public ResponseEntity<Professor> buscarPorId(@PathVariable final long id){
 		Optional<Professor> professor = this.professorService.buscarPorId(id);
 		return ResponseEntity.ok(professor.get());
 	}

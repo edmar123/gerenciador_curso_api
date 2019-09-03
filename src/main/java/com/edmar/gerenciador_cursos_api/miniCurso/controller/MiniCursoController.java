@@ -53,4 +53,5 @@ public class MiniCursoController {
 	public void remover(@PathVariable final long id) {
 		this.minicursoService.remover(id);
 	}
+	
 }

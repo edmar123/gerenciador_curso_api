@@ -11,7 +11,7 @@ import com.edmar.gerenciador_cursos_api.infraestructure.GenericRepository;
 public abstract class ServicoGenerico<T,ID> {
 	
 	@Autowired
-	private GenericRepository<T, ID> repository;
+	protected GenericRepository<T, ID> repository;
 	
 	@Transactional
 	public void salvar(final T entidade) {
