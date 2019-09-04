@@ -2,6 +2,7 @@ package com.edmar.gerenciador_cursos_api.professor.controller;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.edmar.gerenciador_cursos_api.professor.Professor;
+import com.edmar.gerenciador_cursos_api.professor.DTO.ProfessorListingDTO;
 import com.edmar.gerenciador_cursos_api.professor.service.ProfessorService;
 
 @RestController
@@ -42,9 +44,11 @@ public class ProfessorController {
 	
 	@GetMapping
 	@PreAuthorize("hasRole('PROFESSOR')")
-	public ResponseEntity<?> listar() { 
+	public ResponseEntity<List<ProfessorListingDTO>> listar() { 
 		List<Professor> professores = this.professorService.listar();
-		return ResponseEntity.ok(professores);
+		List<ProfessorListingDTO> professoresDTO = professores.stream().map(professor -> new ProfessorListingDTO(professor))
+				.collect(Collectors.toList());
+		return ResponseEntity.ok(professoresDTO);
 	}
 	@GetMapping("/{id}")
 	@PreAuthorize("hasRole('PROFESSOR')")

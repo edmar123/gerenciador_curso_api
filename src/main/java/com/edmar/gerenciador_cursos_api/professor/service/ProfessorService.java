@@ -23,7 +23,7 @@ public class ProfessorService  extends ServicoGenerico<Professor, Long>{
 		} 
 		
 		this.usuarioService.verificarExistenciaLogin(professor.getUsuario().getEmail(), loginAntigo);
-		professor.getUsuario().inserirPermissoes(Permissao.ROLE_PARTICIPANTE);
+		professor.getUsuario().inserirPermissoes(Permissao.ROLE_PROFESSOR);
 
 		this.repository.save(professor);
 	}

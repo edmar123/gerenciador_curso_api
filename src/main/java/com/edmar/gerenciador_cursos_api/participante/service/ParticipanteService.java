@@ -1,8 +1,5 @@
 package com.edmar.gerenciador_cursos_api.participante.service;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
