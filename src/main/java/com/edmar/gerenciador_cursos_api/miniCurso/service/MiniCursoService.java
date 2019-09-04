@@ -22,11 +22,16 @@ public class MiniCursoService  extends ServicoGenerico<MiniCurso, Long>{
 	@Override
 	@Transactional
 	public void salvar(final MiniCurso miniCurso) {
-		this.existeMiniCurso(miniCurso);
-		// Calculando a duração do curso
-		miniCurso.calCularDuracaoCurso();
-		
-		this.repository.save(miniCurso);
+		// Garantindo que todas as threads fiquem sincronizadas, para que nao haja o risco 
+		// de cadastrar duas instancias de curso no mesmo horário e data
+		synchronized (MiniCursoService.class) {
+			
+			this.existeMiniCurso(miniCurso);
+			// Calculando a duração do curso
+			miniCurso.calCularDuracaoCurso();
+			
+			this.repository.save(miniCurso);
+		}
 	}
 	
 	/**
@@ -41,13 +46,17 @@ public class MiniCursoService  extends ServicoGenerico<MiniCurso, Long>{
 		LocalTime inicioCurso = miniCurso.getHoraInicio();
 		LocalTime fimCurso = miniCurso.getHoraFim();
 		
-		final boolean existeMiniCurso = this.miniCursoRepository.existeMiniCursoEntre(dataRealizacao, inicioCurso, fimCurso);
+		boolean existeMesmoHorario = this.miniCursoRepository.existeMiniCursoEntre(inicioCurso, fimCurso);
+		boolean existeComMesmaData = this.miniCursoRepository.existeMiniCursoComData(dataRealizacao);
 		
-		if (existeMiniCurso) {
-			throw new MiniCursoException("Já existe um mini curso cadastrado neste horário");
+		if (existeComMesmaData) {
+			if (existeMesmoHorario) {
+				throw new MiniCursoException("Já existe um mini curso cadastrado neste horário");
+			}
+			
 		}
 		
-		return !existeMiniCurso;
+		return false;
 		
 	}
 	

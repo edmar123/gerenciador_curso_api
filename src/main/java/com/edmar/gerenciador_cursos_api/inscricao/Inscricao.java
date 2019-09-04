@@ -1,9 +1,11 @@
 package com.edmar.gerenciador_cursos_api.inscricao;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -29,6 +31,9 @@ public class Inscricao implements Serializable{
 	@Id
 	@GeneratedValue(strategy=GenerationType.SEQUENCE)
 	private Long id;
+	
+	@Column(name="data_inscricao")
+	private LocalDate dataInscricao;
 	
 	@OneToOne()
 	@JoinColumn(name="id_participante")

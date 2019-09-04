@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.edmar.gerenciador_cursos_api.miniCurso.MiniCurso;
+import com.edmar.gerenciador_cursos_api.miniCurso.DTO.MiniCursoCreateRequestDTO;
 import com.edmar.gerenciador_cursos_api.miniCurso.service.MiniCursoService;
 
 
@@ -27,31 +29,37 @@ public class MiniCursoController {
 	MiniCursoService minicursoService;
 	
 	@PostMapping
-	public ResponseEntity<?> salvar(@RequestBody MiniCurso minicurso){
+	@PreAuthorize("hasRole('PROFESSOR')")
+	public ResponseEntity<?> salvar(@RequestBody MiniCursoCreateRequestDTO minicursoDTO){
+		final MiniCurso minicurso = minicursoDTO.convertToMiniCurso();
 		this.minicursoService.salvar(minicurso);		
 		return ResponseEntity.status(HttpStatus.CREATED).build();
 	}
 	
 	@PutMapping
+	@PreAuthorize("hasRole('PROFESSOR')")
 	public ResponseEntity<?> atualizar(@RequestBody MiniCurso miniCurso){
 		this.minicursoService.salvar(miniCurso);		
 		return ResponseEntity.status(HttpStatus.CREATED).build();
 	}
 	
 	@GetMapping
-	public ResponseEntity<?> listar() { 
+	public ResponseEntity<List<MiniCurso>> listar() { 
 		List<MiniCurso> miniCursos = this.minicursoService.listar();
 		return ResponseEntity.ok(miniCursos);
 	}
 	@GetMapping("/{id}")
-	public ResponseEntity<?> buscarPorId(@PathVariable final long id){
+	@PreAuthorize("hasRole('PROFESSOR')")
+	public ResponseEntity<MiniCurso> buscarPorId(@PathVariable final long id){
 		Optional<MiniCurso> miniCurso = this.minicursoService.buscarPorId(id);
-		return ResponseEntity.ok(miniCurso.get());
+		return miniCurso.isPresent() ? ResponseEntity.ok(miniCurso.get())
+				:ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 	}
 	
 	@DeleteMapping("/{id}")
+	@PreAuthorize("hasRole('PROFESSOR')")
 	public void remover(@PathVariable final long id) {
-		this.minicursoService.remover(id);
+		this.minicursoService.remover(id);	
 	}
 	
 }

@@ -41,32 +41,28 @@ public class MiniCurso implements Serializable{
 	private String nome;
 	
 	@Column(name="data_realizacao")
-	@NonNull
 	private LocalDate dataRealizacao;
 	
 	@Column(name="duracao_curso")
 	private LocalTime duracaoCurso;
 	
 	@Column(name="hora_inicio")
-	@NonNull
 	private LocalTime horaInicio;
 	
 	@Column(name="hora_fim")
-	@NonNull
 	private LocalTime horaFim;
 	@Column
-	@NotNull(message="O total de vagas não pode ser nulo")
 	private int totalVaga; 
 	
 	@OneToOne()
 	@JoinColumn(name="id_professor")
 	private Professor professor;
-		
+
 	public MiniCurso() { 
 		
 	}
 	/**
-	 * A duraçao do curso é calculo de acordo com a hora de inicio do curso e a hora do termino
+	 * A duraçao do curso é calculado de acordo com a hora de inicio do curso e a hora do termino
 	 * @author edmar
 	 */
 	public void calCularDuracaoCurso() {
@@ -81,6 +77,16 @@ public class MiniCurso implements Serializable{
 			return true;
 		}
 		return false;
+	}
+	
+	public void atualizarNumeroDevagas() {
+		
+		if (this.totalVaga == 0) {
+			return;
+		}
+		int totalAtualizado = this.totalVaga -1;
+		
+		this.setTotalVaga(totalAtualizado);
 	}
 	
 }

@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,29 +27,34 @@ public class ProfessorController {
 	ProfessorService professorService;
 	
 	@PostMapping
+	@PreAuthorize("hasRole('PROFESSOR')")
 	public ResponseEntity<?> salvar(@RequestBody Professor professor){
 		this.professorService.salvar(professor);	
 		return ResponseEntity.status(HttpStatus.CREATED).build();
 	}
 	
 	@PutMapping
+	@PreAuthorize("hasRole('PROFESSOR')")
 	public ResponseEntity<?> atualizar(@RequestBody Professor professor){
 		this.professorService.salvar(professor);		
 		return ResponseEntity.status(HttpStatus.CREATED).build();
 	}
 	
 	@GetMapping
+	@PreAuthorize("hasRole('PROFESSOR')")
 	public ResponseEntity<?> listar() { 
 		List<Professor> professores = this.professorService.listar();
 		return ResponseEntity.ok(professores);
 	}
 	@GetMapping("/{id}")
+	@PreAuthorize("hasRole('PROFESSOR')")
 	public ResponseEntity<Professor> buscarPorId(@PathVariable final long id){
 		Optional<Professor> professor = this.professorService.buscarPorId(id);
 		return ResponseEntity.ok(professor.get());
 	}
 	
 	@DeleteMapping("/{id}")
+	@PreAuthorize("hasRole('PROFESSOR')")
 	public void remover(@PathVariable final long id) {
 		this.professorService.remover(id);
 	}

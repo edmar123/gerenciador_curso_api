@@ -7,6 +7,7 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.edmar.gerenciador_cursos_api.exception.EntidadeNotFoundException;
 import com.edmar.gerenciador_cursos_api.inscricao.Inscricao;
 import com.edmar.gerenciador_cursos_api.inscricao.exception.InscricaoException;
 import com.edmar.gerenciador_cursos_api.inscricao.infraestructure.InscricaoRepository;
@@ -29,20 +30,29 @@ public class InscricaoService extends ServicoGenerico<Inscricao, Long> {
 	@Autowired
 	private InscricaoRepository inscricaoRepository;
 	
+	/**
+	 * Método responsável por criar uma inscrição relacionado a um mini curso especifico
+	 * @param inscricao inscricao com os dados do curso e do participante
+	 */
 	@Transactional
-	public synchronized void inscricaoMiniCurso(final Inscricao inscricao) {
-		Optional<MiniCurso> minicursoFromDB = this.minicursoService.buscarPorId(inscricao.getMiniCurso().getId());
-
-		boolean possuiVaga = minicursoFromDB.get().possuiVaga();
+	public void inscricaoMiniCurso(final Inscricao inscricao) {
 		
-		this.existeParticipanteInscrito(inscricao);
+		Optional<MiniCurso> minicursoFromDB = this.minicursoService.buscarPorId(inscricao.getMiniCurso().getId());
+		
+		synchronized (InscricaoService.class) {
 
-		if (!possuiVaga) {
-			throw new MiniCursoException("As vagas esgotaram");
+			boolean possuiVaga = minicursoFromDB.get().possuiVaga();
+			
+			this.existeParticipanteInscrito(inscricao);
+
+			if (!possuiVaga) {
+				throw new MiniCursoException("As vagas esgotaram");
+			}
+			
+			minicursoFromDB.get().atualizarNumeroDevagas();
+
+			this.repository.save(inscricao);
 		}
-
-		this.repository.save(inscricao);
-
 	}
 	
 	/**

@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import com.edmar.gerenciador_cursos_api.professor.Professor;
 import com.edmar.gerenciador_cursos_api.servico.ServicoGenerico;
+import com.edmar.gerenciador_cursos_api.usuario.Permissao;
 import com.edmar.gerenciador_cursos_api.usuario.service.UsuarioService;
 
 @Service
@@ -22,7 +23,8 @@ public class ProfessorService  extends ServicoGenerico<Professor, Long>{
 		} 
 		
 		this.usuarioService.verificarExistenciaLogin(professor.getUsuario().getEmail(), loginAntigo);
-		
+		professor.getUsuario().inserirPermissoes(Permissao.ROLE_PARTICIPANTE);
+
 		this.repository.save(professor);
 	}
 	

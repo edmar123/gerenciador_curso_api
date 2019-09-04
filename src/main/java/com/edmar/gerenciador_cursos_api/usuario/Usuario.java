@@ -1,14 +1,19 @@
 package com.edmar.gerenciador_cursos_api.usuario;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Table;
-import javax.validation.constraints.NotBlank;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -25,18 +30,41 @@ public class Usuario {
 	@Column
 	private String nome;
 	@Column
-	@NotBlank(message="O email não pode ser nulo")
 	private String email;
+	
 	@Column
-	@NotBlank(message="A senha não pode ser nulo")
-	private String senha;
+	private String username;
 	
+	@Column
+	private String password;
+	
+	@ElementCollection(targetClass = Permissao.class)
+	@CollectionTable(name = "t_usuario_permissao", joinColumns = @JoinColumn(name = "id_usuario"))
+	@Column(name = "permissao")
 	@Enumerated(EnumType.STRING)
-	private TipoUsuario tipoUsuario;
-	
+	private Set<Permissao> permissoes;
+		
 	public Usuario() {
 		
 	}
 
+	public Usuario(Long id, String nome, String email, String username, String password, Set<Permissao> permissoes) {
+		super();
+		this.id = id;
+		this.nome = nome;
+		this.email = email;
+		this.username = username;
+		this.password = password;
+		this.permissoes = permissoes;
+	}
+	
+	public void inserirPermissoes(Permissao permissao) {
+		if (permissao == null) {
+			this.permissoes = new HashSet<>();
+			return;
+		}
+		
+		this.permissoes.add(permissao);
+	}
 
 }

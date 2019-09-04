@@ -1,11 +1,14 @@
 package com.edmar.gerenciador_cursos_api.participante.service;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.edmar.gerenciador_cursos_api.participante.Participante;
-import com.edmar.gerenciador_cursos_api.professor.Professor;
 import com.edmar.gerenciador_cursos_api.servico.ServicoGenerico;
+import com.edmar.gerenciador_cursos_api.usuario.Permissao;
 import com.edmar.gerenciador_cursos_api.usuario.service.UsuarioService;
 
 @Service
@@ -23,7 +26,7 @@ public class ParticipanteService  extends ServicoGenerico<Participante, Long>{
 		} 
 		
 		this.usuarioService.verificarExistenciaLogin(participante.getUsuario().getEmail(), loginAntigo);
-		
+		participante.getUsuario().inserirPermissoes(Permissao.ROLE_PARTICIPANTE);
 		this.repository.save(participante);
 	}
 }

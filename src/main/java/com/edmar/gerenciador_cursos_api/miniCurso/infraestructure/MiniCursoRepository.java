@@ -13,9 +13,12 @@ import com.edmar.gerenciador_cursos_api.miniCurso.MiniCurso;
 @Repository
 public interface MiniCursoRepository extends GenericRepository<MiniCurso, Long>{
 	
-	@Query("SELECT CASE WHEN (COUNT(m.id) > 0) THEN TRUE ELSE FALSE END  FROM MiniCurso m WHERE m.horaInicio "
-			+ " BETWEEN :horaInicio AND :horaFim OR"
-			+ " m.horaFim BETWEEN :horaInicio AND :horaFim"
-			+ " AND m.dataRealizacao = :dataRealizacao")
-	boolean existeMiniCursoEntre(@Param("dataRealizacao") final LocalDate dataRealizacao, @Param("horaInicio") final LocalTime horaInicio, @Param("horaFim") final LocalTime horaFim);
+	@Query("SELECT CASE WHEN (COUNT(m.id) > 0) THEN TRUE ELSE FALSE END  FROM MiniCurso m WHERE "
+			+ " m.horaInicio  BETWEEN :horaInicio AND :horaFim OR"
+			+ " m.horaFim BETWEEN :horaInicio AND :horaFim")
+	boolean existeMiniCursoEntre(@Param("horaInicio") final LocalTime horaInicio, @Param("horaFim") final LocalTime horaFim);
+	
+	@Query("SELECT CASE WHEN (COUNT(m.id) > 0) THEN TRUE ELSE FALSE END  FROM MiniCurso m WHERE "
+			+ " m.dataRealizacao = :dataRealizacao")
+	boolean existeMiniCursoComData(@Param("dataRealizacao") final LocalDate dataRealizacao);
 }

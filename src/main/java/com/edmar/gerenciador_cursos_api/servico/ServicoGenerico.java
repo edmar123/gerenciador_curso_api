@@ -6,7 +6,10 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.edmar.gerenciador_cursos_api.exception.EntidadeNotFoundException;
 import com.edmar.gerenciador_cursos_api.infraestructure.GenericRepository;
+
+import javassist.NotFoundException;
 
 public abstract class ServicoGenerico<T,ID> {
 	
