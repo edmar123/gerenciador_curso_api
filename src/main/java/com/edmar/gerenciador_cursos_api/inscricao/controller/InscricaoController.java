@@ -42,6 +42,7 @@ public class InscricaoController {
 		return ResponseEntity.ok(miniCursos); 
 	}
 	@GetMapping("/{id}")
+	@PreAuthorize("hasRole('PROFESSOR')")
 	public ResponseEntity<Inscricao> buscarPorId(@PathVariable final long id){
 		Optional<Inscricao> miniCurso = this.inscricaoService.buscarPorId(id);
 		return miniCurso.isPresent() ? ResponseEntity.ok(miniCurso.get())

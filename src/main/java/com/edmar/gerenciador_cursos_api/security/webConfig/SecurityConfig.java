@@ -3,6 +3,7 @@ package com.edmar.gerenciador_cursos_api.security.webConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -17,6 +18,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import com.edmar.gerenciador_cursos_api.security.UserDetailsServiceImpl;
 import com.edmar.gerenciador_cursos_api.security.jwt.JwtAuthEntryPoint;
 import com.edmar.gerenciador_cursos_api.security.jwt.JwtAuthTokenFilter;
+import com.edmar.gerenciador_cursos_api.usuario.Permissao;
 
 @Configuration
 @EnableWebSecurity

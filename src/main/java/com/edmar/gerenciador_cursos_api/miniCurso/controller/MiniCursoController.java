@@ -44,9 +44,11 @@ public class MiniCursoController {
 	}
 	
 	@GetMapping
-	public ResponseEntity<List<MiniCurso>> listar() { 
+	@PreAuthorize("hasRole('PROFESSOR') or hasRole('PARTICIPANTE')")
+	public ResponseEntity<Optional<List<MiniCurso>>> listar() { 
 		List<MiniCurso> miniCursos = this.minicursoService.listar();
-		return ResponseEntity.ok(miniCursos);
+		Optional<List<MiniCurso>> minicursosOpt = Optional.ofNullable(miniCursos);
+		return ResponseEntity.ok(minicursosOpt);
 	}
 	@GetMapping("/{id}")
 	@PreAuthorize("hasRole('PROFESSOR')")

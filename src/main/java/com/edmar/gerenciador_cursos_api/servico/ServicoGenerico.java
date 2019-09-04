@@ -10,6 +10,7 @@ import com.edmar.gerenciador_cursos_api.exception.EntidadeNotFoundException;
 import com.edmar.gerenciador_cursos_api.infraestructure.GenericRepository;
 
 import javassist.NotFoundException;
+import net.bytebuddy.implementation.bytecode.Throw;
 
 public abstract class ServicoGenerico<T,ID> {
 	
@@ -28,7 +29,10 @@ public abstract class ServicoGenerico<T,ID> {
 	
 	@Transactional(readOnly=true)
 	public Optional<T> buscarPorId(final ID id) {
-		return this.repository.findById(id);
+		Optional<T> entidade = this.repository.findById(id);
+		entidade.orElseThrow(()-> new EntidadeNotFoundException("A entidade de identificador "+ id + " Não foi encontrada") );
+		
+		return entidade;
 	}
 	
 	@Transactional(readOnly=true)
