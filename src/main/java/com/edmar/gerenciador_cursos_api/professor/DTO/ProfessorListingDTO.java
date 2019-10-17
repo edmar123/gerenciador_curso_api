@@ -32,7 +32,7 @@ public class ProfessorListingDTO {
 		this.matricula = professor.getMatricula();
 		
 		this.telefones = professor.getTelefones().stream()
-				.map(fone-> new TelefoneListingDTO(fone))
+				.map(TelefoneListingDTO::new)
 				.collect(Collectors.toList());
 		this.usuario = new UsuarioListingDTO(professor.getUsuario());
 	}
