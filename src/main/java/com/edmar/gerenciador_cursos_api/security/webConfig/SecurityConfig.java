@@ -35,9 +35,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.cors().and().csrf().disable()
 			.authorizeRequests()
-			.antMatchers("/api/usuario/login/**")
-			.permitAll()
-			.antMatchers("/api/sse").permitAll()
+			.antMatchers("/api/usuario/login/**").permitAll()
+			.antMatchers("/api/sse/**").permitAll()
 			.anyRequest().authenticated()
 		.and()
 			.exceptionHandling().authenticationEntryPoint(this.unauthorizedHandler)
@@ -47,7 +46,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 
 	@Bean
-	public JwtAuthTokenFilter authenticationJwtTokenFilter() {
+	public JwtAuthTokenFilter authenticationJwtTokenFilter() { 
 		return new JwtAuthTokenFilter();
 	}
 
