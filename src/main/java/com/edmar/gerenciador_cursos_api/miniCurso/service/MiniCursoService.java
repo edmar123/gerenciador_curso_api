@@ -3,10 +3,9 @@ package com.edmar.gerenciador_cursos_api.miniCurso.service;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-import javax.transaction.Transactional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.edmar.gerenciador_cursos_api.miniCurso.MiniCurso;
 import com.edmar.gerenciador_cursos_api.miniCurso.exception.MiniCursoException;
@@ -32,6 +31,11 @@ public class MiniCursoService  extends ServicoGenerico<MiniCurso, Long>{
 			
 			this.repository.save(miniCurso);
 		}
+	}
+	
+	@Transactional
+	public Long getTotalVagas() {
+		return this.miniCursoRepository.getTotalDeVagas();
 	}
 	
 	/**

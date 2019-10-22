@@ -21,4 +21,7 @@ public interface MiniCursoRepository extends GenericRepository<MiniCurso, Long>{
 	@Query("SELECT CASE WHEN (COUNT(m.id) > 0) THEN TRUE ELSE FALSE END  FROM MiniCurso m WHERE "
 			+ " m.dataRealizacao = :dataRealizacao")
 	boolean existeMiniCursoComData(@Param("dataRealizacao") final LocalDate dataRealizacao);
+	
+	@Query("SELECT COUNT(*) FROM t_mini_curso")
+	Long getTotalDeVagas();
 }
