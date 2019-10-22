@@ -1,4 +1,4 @@
-package com.edmar.gerenciador_cursos_api.miniCurso.controller;
+package com.edmar.gerenciador_cursos_api.realtime;
 
 import lombok.Getter;
 import lombok.Setter;
