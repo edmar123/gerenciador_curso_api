@@ -15,6 +15,7 @@ public class MinicursoSSeDto {
 	private LocalDate dataRealizacao;
 	private LocalTime horaInicio;
 	private int totalVagas;
+	private String descricao;
 	
 	public static MinicursoSSeDto convertToDto(MiniCurso miniCurso) {
 		
@@ -24,6 +25,7 @@ public class MinicursoSSeDto {
 		dto.dataRealizacao = miniCurso.getDataRealizacao();
 		dto.horaInicio = miniCurso.getHoraInicio();
 		dto.totalVagas = miniCurso.getTotalVaga();
+		dto.descricao = miniCurso.getDescricao();
 		
 		return dto;
 	}
