@@ -73,6 +73,10 @@ public class RealTimecontroller implements ApplicationListener<RealtimeEvent> {
 		emitter.onTimeout(() -> {
 			emitter.complete();
 		});
+		
+		emitter.onCompletion(()-> {
+			this.listEmmitter.remove(emitter);
+		});
 
 		return emitter;
 	}

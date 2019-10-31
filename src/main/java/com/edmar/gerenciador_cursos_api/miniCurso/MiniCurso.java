@@ -40,6 +40,9 @@ public class MiniCurso implements Serializable{
 	@Column
 	private String nome;
 	
+	@Column(length=250)
+	private String descricao;
+	
 	@Column(name="data_realizacao")
 	private LocalDate dataRealizacao;
 	
