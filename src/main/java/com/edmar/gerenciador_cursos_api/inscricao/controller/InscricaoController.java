@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.edmar.gerenciador_cursos_api.events.RealtimeEvent;
 import com.edmar.gerenciador_cursos_api.inscricao.Inscricao;
 import com.edmar.gerenciador_cursos_api.inscricao.DTO.InscricaoCreateRequestDTO;
 import com.edmar.gerenciador_cursos_api.inscricao.service.InscricaoService;
@@ -26,17 +28,22 @@ public class InscricaoController {
 	@Autowired
 	private InscricaoService inscricaoService;
 	
+	@Autowired
+	private ApplicationEventPublisher publisher;
+	
 	@PostMapping()
 	@PreAuthorize("hasRole('PARTICIPANTE')")
 	public ResponseEntity<?> inscreverNoCurso(@RequestBody InscricaoCreateRequestDTO inscricaoDto){
 		
 		final Inscricao inscricao = inscricaoDto.convertToInscricao();
 		this.inscricaoService.inscricaoMiniCurso(inscricao);
+		
+		this.publisher.publishEvent(new RealtimeEvent(this));
 		return ResponseEntity.status(HttpStatus.OK).build();
 	}
 	
 	@GetMapping
-	@PreAuthorize("hasRole('PARTICIPANTE' or hasHole('PROFESSOR'))")
+	@PreAuthorize("hasRole('PARTICIPANTE')")
 	public ResponseEntity<List<Inscricao>> listar() { 
 		List<Inscricao> miniCursos = this.inscricaoService.listar();
 		return ResponseEntity.ok(miniCursos); 

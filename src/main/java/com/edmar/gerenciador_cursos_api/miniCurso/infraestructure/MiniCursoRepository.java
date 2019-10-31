@@ -22,6 +22,6 @@ public interface MiniCursoRepository extends GenericRepository<MiniCurso, Long>{
 			+ " m.dataRealizacao = :dataRealizacao")
 	boolean existeMiniCursoComData(@Param("dataRealizacao") final LocalDate dataRealizacao);
 	
-	@Query("SELECT COUNT(*) FROM t_mini_curso")
-	Long getTotalDeVagas();
+//	@Query("SELECT COUNT(*) FROM t_mini_curso")
+//	Long getTotalDeVagas();
 }

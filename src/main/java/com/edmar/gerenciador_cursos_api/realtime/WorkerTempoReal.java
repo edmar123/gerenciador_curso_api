@@ -1,3 +1,4 @@
+package com.edmar.gerenciador_cursos_api.realtime;
 //package com.edmar.gerenciador_cursos_api.miniCurso.controller;
 //
 //import java.util.ArrayList;

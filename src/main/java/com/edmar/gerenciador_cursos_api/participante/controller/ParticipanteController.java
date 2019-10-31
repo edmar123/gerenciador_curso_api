@@ -29,7 +29,7 @@ public class ParticipanteController {
 	ParticipanteService participanteService;
 	
 	@PostMapping
-	@PreAuthorize("hasRole('PARTICIPANTE')")
+	@PreAuthorize("hasRole('PARTICIPANTE') or hasRole('PROFESSOR')")
 	public ResponseEntity<?> salvar(@RequestBody Participante participante){
 		this.participanteService.salvar(participante);	
 		return ResponseEntity.status(HttpStatus.CREATED).build();

@@ -59,9 +59,8 @@ public class Usuario {
 	}
 	
 	public void inserirPermissoes(Permissao permissao) {
-		if (permissao == null) {
+		if (this.permissoes == null) {
 			this.permissoes = new HashSet<>();
-			return;
 		}
 		
 		this.permissoes.add(permissao);

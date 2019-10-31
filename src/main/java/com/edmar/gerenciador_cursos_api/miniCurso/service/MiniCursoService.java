@@ -33,10 +33,10 @@ public class MiniCursoService  extends ServicoGenerico<MiniCurso, Long>{
 		}
 	}
 	
-	@Transactional
-	public Long getTotalVagas() {
-		return this.miniCursoRepository.getTotalDeVagas();
-	}
+//	@Transactional
+//	public Long getTotalVagas() {
+//		return this.miniCursoRepository.getTotalDeVagas();
+//	}
 	
 	/**
 	 * Verifica se existe um miniCurso no mesmo horário que o passado como parametro

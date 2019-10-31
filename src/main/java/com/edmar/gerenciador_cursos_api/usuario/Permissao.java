@@ -15,4 +15,9 @@ public enum Permissao {
 		return Permissao.values();
 	}
 
+	public String getDescricao() {
+		return descricao;
+	}
+	
+
 }
