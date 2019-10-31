@@ -20,7 +20,7 @@ import com.edmar.gerenciador_cursos_api.security.jwt.JwtResponse;
 import com.edmar.gerenciador_cursos_api.usuario.DTO.UsuarioAuthenticationDTO;
 import com.edmar.gerenciador_cursos_api.usuario.service.UsuarioService;
 
-@CrossOrigin(origins = "*", maxAge = 3600)
+@CrossOrigin(origins = "*", maxAge = 36000)
 @RestController
 @RequestMapping("/api/usuario")
 public class UsuarioController {
@@ -32,7 +32,7 @@ public class UsuarioController {
 	UsuarioService service;
 
 	@Autowired
-	JwtProvider jwtProvider;
+	JwtProvider jwtProvider; 
 
 	@PostMapping("/login")
 	public ResponseEntity<?> authenticateUser(@Valid @RequestBody UsuarioAuthenticationDTO loginForm) {

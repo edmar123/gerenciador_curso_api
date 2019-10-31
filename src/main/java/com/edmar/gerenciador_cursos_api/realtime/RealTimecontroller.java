@@ -33,22 +33,22 @@ public class RealTimecontroller implements ApplicationListener<RealtimeEvent> {
 	@Autowired
 	private MiniCursoService minicursoService;
 
-	@GetMapping("/data")
-	public void atualizarDados() {
-		Realtime realtime = new Realtime();
-		realtime.setDados(LocalTime	.now().toString());
-
-		this.listEmmitter.stream().forEach(emitter -> {
-
-			try {
-				emitter.send(realtime, MediaType.APPLICATION_JSON);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		});
-	}
-	
+//	@GetMapping("/data")
+//	public void atualizarDados() {
+//		Realtime realtime = new Realtime();
+//		realtime.setDados(LocalTime	.now().toString());
+//
+//		this.listEmmitter.stream().forEach(emitter -> {
+//
+//			try {
+//				emitter.send(realtime, MediaType.APPLICATION_JSON);
+//			} catch (IOException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//		});
+//	}
+//	
 	@GetMapping()
 	public ResponseBodyEmitter createConnectionSse() {
 
@@ -72,6 +72,10 @@ public class RealTimecontroller implements ApplicationListener<RealtimeEvent> {
 
 		emitter.onTimeout(() -> {
 			emitter.complete();
+		});
+		
+		emitter.onCompletion(()-> {
+			this.listEmmitter.removeAll(listEmmitter);
 		});
 
 		return emitter;

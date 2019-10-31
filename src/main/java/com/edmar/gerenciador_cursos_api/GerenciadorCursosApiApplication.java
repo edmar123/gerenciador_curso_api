@@ -16,7 +16,7 @@ public class GerenciadorCursosApiApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(GerenciadorCursosApiApplication.class, args);
 		
-		System.out.println(new BCryptPasswordEncoder().encode("123123"));
+		System.out.println(new BCryptPasswordEncoder().encode("123456789"));
 	}
 
 }
