@@ -30,6 +30,8 @@ public class MiniCursoCreateRequestDTO {
 	@NotNull(message="O total de vagas não pode ser nulo")
 	private int totalVaga; 
 	
+	private String descricao;
+	
 	@NotBlank(message="O dados de professor não podem ser nulo")
 	private ProfessorCreateRequestDTO professor;
 	
@@ -42,11 +44,12 @@ public class MiniCursoCreateRequestDTO {
 		
 		miniCurso.setNome(this.nome);
 		miniCurso.setDataRealizacao(this.getDataRealizacao());
-		miniCurso.setHoraInicio(this.horaInicio);
-		miniCurso.setHoraFim(this.horaFim);
-		miniCurso.setTotalVaga(this.totalVaga);
+		miniCurso.setHoraInicio(this.horaInicio);  
+		miniCurso.setHoraFim(this.horaFim);  
+		miniCurso.setTotalVaga(this.totalVaga); 
+		miniCurso.setDescricao(this.descricao); 
 		miniCurso.setProfessor(this.professor.convertToProfessor());
-		
+		 
 		return miniCurso;
 	}
 }

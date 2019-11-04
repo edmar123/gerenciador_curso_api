@@ -78,10 +78,10 @@ public class RealTimecontroller implements ApplicationListener<RealtimeEvent> {
 			this.listEmmitter.removeAll(listEmmitter);
 		});
 
-		return emitter;
+		return emitter; 
 	}
-
-	@Scheduled(fixedDelay = 5000L)
+ 
+	@Scheduled(fixedDelay = 5000L) 
 	public void update() {
 		this.listEmmitter.stream().forEach(emitter -> {
 			try {
@@ -91,7 +91,7 @@ public class RealTimecontroller implements ApplicationListener<RealtimeEvent> {
 				final MediaType textPlain = MediaType.TEXT_PLAIN;
 				emitter.send(msg, textPlain);
 			} catch (IOException e) { 
-				e.printStackTrace();
+				e.printStackTrace(); 
 			}
 		});
 	}
